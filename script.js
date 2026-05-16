@@ -490,6 +490,17 @@ let scores = {
   practical: 0
 };
 
+function shuffleArray(items) {
+  const copy = [...items];
+
+  for (let index = copy.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [copy[index], copy[randomIndex]] = [copy[randomIndex], copy[index]];
+  }
+
+  return copy;
+}
+
 function showScreen(screenToShow) {
   [startScreen, quizScreen, resultScreen].forEach((screen) => {
     screen.classList.toggle("active", screen === screenToShow);
@@ -506,7 +517,8 @@ function buildQuizSet() {
     const randomIndex = Math.floor(Math.random() * pool.questions.length);
     return {
       category: pool.category,
-      ...pool.questions[randomIndex]
+      ...pool.questions[randomIndex],
+      options: shuffleArray(pool.questions[randomIndex].options)
     };
   });
 }
